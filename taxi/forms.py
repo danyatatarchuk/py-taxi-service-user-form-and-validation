@@ -1,7 +1,10 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 
-from taxi.models import Driver, Car
+from taxi.models import Car
+
+User = get_user_model()
 
 
 def validate_license_number(license_number):
@@ -18,7 +21,7 @@ def validate_license_number(license_number):
 
 class DriverLicenseUpdateForm(forms.ModelForm):
     class Meta:
-        model = Driver
+        model = User   # 🔥 FIX
         fields = ("license_number",)
 
     def clean_license_number(self):
@@ -29,7 +32,7 @@ class DriverLicenseUpdateForm(forms.ModelForm):
 
 class DriverCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = Driver
+        model = User   # 🔥 FIX
         fields = UserCreationForm.Meta.fields + (
             "first_name",
             "last_name",
